@@ -1,0 +1,23 @@
+@import "../../../assets/globaVariablelStyle/variable";
+
+.button{
+    font-size: 14px;
+    padding: 8px 15px;
+    background-color: white;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    width: max-content;
+    border-radius: 2px;
+    box-shadow: 0 0 2px rgba($color: #000000, $alpha: 0.1);
+}
+.primary{
+    background-color: $primary-color;
+    color: white;
+}
+.large{
+    width: 100%;
+}
+.disabled{
+    cursor: not-allowed;
+}
