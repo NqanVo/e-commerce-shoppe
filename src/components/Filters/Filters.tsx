@@ -5,6 +5,7 @@ import "./Filters.scss";
 import { getProductList } from "../../redux/slices/productListSlice";
 import { useDispatch } from "react-redux/es/hooks/useDispatch";
 import { Link, useLocation } from "react-router-dom";
+import Loading from "../UI/Loading/Loading";
 
 const Filters = memo(() => {
   const category = useLocation().pathname.split("/")[2];
@@ -36,22 +37,23 @@ const Filters = memo(() => {
           Tất cả danh mục
         </h3>
         <div className={"filter__tab__body"}>
-          {/* <p className={"filter__tab__body__item active"}>
-            <AiFillCaretRight /> Áo khoác
-          </p> */}
-          {categories.map((cate) => (
-            <Link
-              to={`/category/${cate}`}
-              key={cate}
-              className={`filter__tab__body__item ${
-                category === cate && "active"
-              }`}
-              onClick={() => handleGetProductListCategories(cate)}
-            >
-              {category === cate && <AiFillCaretRight />}
-              {cate}
-            </Link>
-          ))}
+          {!categories ? (
+            <Loading />
+          ) : (
+            categories.map((cate) => (
+              <Link
+                to={`/category/${cate}`}
+                key={cate}
+                className={`filter__tab__body__item ${
+                  category === cate && "active"
+                }`}
+                onClick={() => handleGetProductListCategories(cate)}
+              >
+                {category === cate && <AiFillCaretRight />}
+                {cate}
+              </Link>
+            ))
+          )}
         </div>
       </div>
     </nav>
