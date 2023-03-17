@@ -11,8 +11,6 @@ import { useLocation } from "react-router-dom";
 import { ProductListProps } from "../../redux/slices/productListSlice";
 
 const ProductList = memo(() => {
-  // const [productList, setProductList] = useState<Array<ProductCardProps>>([]);
-  // const [currentPage, setCurrentPage] = useState<number>(0);
   //lay danh sach san pham tu store productList
   const productList: ProductCardProps[] = useSelector(
     (state: { productList: ProductListProps }) => state.productList.products
@@ -24,18 +22,28 @@ const ProductList = memo(() => {
 
   const dispatch = useDispatch();
   const category = useLocation().pathname.split("/")[2];
-  // console.log(category);
+  console.log(category);
+
+  const getData = (url: string) => {
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch(getProductList(data));
+      });
+  };
 
   useEffect(() => {
-    const getData = () => {
-      fetch(`https://dummyjson.com/products?limit=20&skip=${currentPage * 20}`)
-        .then((res) => res.json())
-        .then((data) => {
-          dispatch(getProductList(data));
-        });
-    };
-    getData();
-  }, [currentPage]);
+    if (category)
+      getData(
+        `https://dummyjson.com/products/category/${category}?limit=20&skip=${
+          currentPage * 20
+        }`
+      );
+    else
+      getData(
+        `https://dummyjson.com/products?limit=20&skip=${currentPage * 20}`
+      );
+  }, [currentPage, category]);
 
   // const handlePage = useCallback(() => {
   //   dispatch(
