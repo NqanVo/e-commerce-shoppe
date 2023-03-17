@@ -8,7 +8,7 @@ interface ButtonProps {
   title?: string;
   Icon?: IconType;
   disabled?: boolean;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const Button = memo(

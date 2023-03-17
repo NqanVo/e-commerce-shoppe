@@ -9,7 +9,7 @@ import Loading from "../components/UI/Loading/Loading";
 const ProductSinglePage = memo(() => {
   const idProduct = useLocation().pathname.split("/")[2];
   const [productDetail, setProductDetail] = useState<ProductDetailProps>();
-  console.log(idProduct);
+
   useEffect(() => {
     const getData = () => {
       fetch(`https://dummyjson.com/products/${idProduct}`)
@@ -18,7 +18,6 @@ const ProductSinglePage = memo(() => {
     };
     getData();
   }, []);
-  console.log(productDetail);
 
   return (
     <div className="">
