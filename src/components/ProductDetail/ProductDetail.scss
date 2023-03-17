@@ -87,12 +87,41 @@
         display: flex;
         gap: 20px;
         align-items: center;
+
+        & div{
+          display: flex;
+          align-items: center;
+          & input{
+            width: 50px;
+            padding: 10px 0;
+            outline: none;
+            border: 1px solid rgba($color: #000000, $alpha: 0.1);
+            text-align: center;
+          }
+        }
       }
 
       &__buttons {
         display: flex;
         gap: 20px;
         align-items: center;
+      }
+    }
+
+
+
+    &__label{
+      border-top:1px solid rgba($color: #000000, $alpha: 0.2);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      &__item{
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        & img{
+          transform: scale(0.4);
+        }
+
       }
     }
   }
