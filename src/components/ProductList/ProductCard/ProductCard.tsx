@@ -1,4 +1,5 @@
 import React, { memo } from "react";
+import { Link } from "react-router-dom";
 import "./ProductCard.scss";
 import ProductCardRating from "./ProductCardRating/ProductCardRating";
 
@@ -14,7 +15,7 @@ export interface ProductCardProps {
 const ProductCard = memo(
   ({ id, thumbnail, title, price, rating, stock }: ProductCardProps) => {
     return (
-      <div key={id} className={"productCard"}>
+      <Link to={`/products/${id}`} key={id} className={"productCard"}>
         <div className={"productCard__image"}>
           <img
             src={thumbnail}
@@ -27,13 +28,18 @@ const ProductCard = memo(
           <p className={"productCard__body__title"}>
             {title.length > 60 ? title.substring(0, 60) + "..." : title}
           </p>
-          <p className={"productCard__body__price"}>${price}</p>
+          <p className={"productCard__body__price"}>
+            {(price * 23500).toLocaleString("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            })}
+          </p>
           <div className={"productCard__body__rating"}>
             <ProductCardRating rating={rating} />
             <p>Đã bán: {stock}</p>
           </div>
         </div>
-      </div>
+      </Link>
     );
   }
 );

@@ -7,7 +7,7 @@ const ProductsPage = memo(() => {
   return (
     <div className="">
       <Header></Header>
-      <div className="container">
+      <div className="container container__productList">
         <Filters></Filters>
         <ProductList />
       </div>

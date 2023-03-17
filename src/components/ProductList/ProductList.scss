@@ -1,25 +1,25 @@
 @import "../../assets/globaVariablelStyle/_variable.scss";
 
-.productList{
+.productList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  &__header {
     width: 100%;
+    padding: 13px 20px;
     display: flex;
-    flex-direction: column;
-    gap: 8px;
-    &__header{
-        width: 100%;
-        padding: 13px 20px;
-        display: flex;
-        justify-content: space-between;
-        background-color: #e2e2e2;
-    }
-    &__body{
-        width: 100%;
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        grid-gap:10px;
+    justify-content: space-between;
+    background-color: #e2e2e2;
+  }
+  &__body {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 10px;
 
-        @include mobile{
-            grid-template-columns: repeat(3, 1fr);
-        }
+    @include mobile {
+      grid-template-columns: repeat(3, 1fr);
     }
+  }
 }

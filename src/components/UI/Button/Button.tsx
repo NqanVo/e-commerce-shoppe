@@ -1,26 +1,29 @@
 import React, { memo } from "react";
+import { IconType } from "react-icons";
 import "./Button.scss";
 
 interface ButtonProps {
-  type?: "primary" | "secondary";
+  type?: "primary" | "secondary" | "normal";
   size?: "medium" | "large";
-  title: React.ReactNode;
+  title?: string;
+  Icon?: IconType;
   disabled?: boolean;
   onClick?: () => void;
 }
 
 const Button = memo(
   ({
-    type = "secondary",
+    type = "normal",
     size = "medium",
     title,
+    Icon,
     onClick,
     disabled = false,
   }: ButtonProps) => {
-    // let class : string = "";
     const getClass = () => {
       let classes: string = "button";
       if (type === "primary") classes += " primary";
+      if (type === "secondary") classes += " secondary";
       if (size === "large") classes += " large";
       if (disabled) classes += " disabled";
       return classes;
@@ -28,7 +31,7 @@ const Button = memo(
 
     return (
       <button onClick={onClick} className={getClass()} disabled={disabled}>
-        {title}
+        {Icon && <Icon />} {title && title}
       </button>
     );
   }

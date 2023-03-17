@@ -20,7 +20,9 @@ const Filters = memo(() => {
   }, []);
 
   const handleGetProductListCategories = (cate: string) => {
-    dispatch(getProductList({ products: [], skip: 0, total: 0 }));
+    dispatch(
+      getProductList({ products: [], skip: 0, total: 0, currentPage: 0 })
+    );
     fetch(`https://dummyjson.com/products/category/${cate}`)
       .then((res) => res.json())
       .then((data) => dispatch(getProductList(data)));
