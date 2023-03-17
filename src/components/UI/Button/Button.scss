@@ -1,23 +1,32 @@
 @import "../../../assets/globaVariablelStyle/variable";
 
-.button{
-    font-size: 14px;
-    padding: 8px 15px;
-    background-color: white;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    width: max-content;
-    border-radius: 2px;
-    box-shadow: 0 0 2px rgba($color: #000000, $alpha: 0.1);
+.button {
+  font-size: 14px;
+  padding: 8px 15px;
+  background-color: white;
+  border: transparent solid 1px;
+  outline: none;
+  cursor: pointer;
+  width: max-content;
+  border-radius: 2px;
+  text-transform: capitalize;
+  box-shadow: 0 0 2px rgba($color: #000000, $alpha: 0.2);
 }
-.primary{
-    background-color: $primary-color;
-    color: white;
+.primary {
+  background-color: $primary-color;
+  color: white;
+  border: 1px solid $primary-color;
 }
-.large{
-    width: 100%;
+.secondary {
+  background-color: rgba($color: $primary-color, $alpha: 0.1);
+  color: $primary-color;
+  border: 1px solid $primary-color;
 }
-.disabled{
-    cursor: not-allowed;
+.large {
+  //   width: 100%;
+  font-size: 16px;
+  padding: 14px 20px;
+}
+.disabled {
+  cursor: not-allowed;
 }

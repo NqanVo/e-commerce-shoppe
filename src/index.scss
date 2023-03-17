@@ -1,27 +1,79 @@
 @import-normalize;
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap");
 @import "./assets/globaVariablelStyle/variable";
 
-*{
+* {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
 
-body{
-    overflow-y: scroll;
-    font-family: 'Roboto', sans-serif;
-    background-color: #efefef;
+body {
+  overflow-y: scroll;
+  font-family: "Roboto", sans-serif;
+  background-color: #efefef;
 }
 
-.container{
+.container {
   width: 1200px;
   margin: 0 auto;
+}
+.container__productList {
   display: grid;
   grid-template-columns: 16.667% 83.333%;
 }
-
-a{
+.container__productDetail {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+a {
   text-decoration: none;
   color: black;
+}
+
+h1,
+h2,
+h3 {
+  display: block;
+  color: black;
+}
+h1 {
+  font-size: 30px;
+  font-weight: 900;
+  @include tablet {
+    font-size: 20px;
+  }
+  @include mobile {
+    font-size: 20px;
+  }
+}
+h2 {
+  font-size: 20px;
+  font-weight: 700;
+  @include tablet {
+    font-size: 16px;
+  }
+  @include mobile {
+    font-size: 16px;
+  }
+}
+h3 {
+  font-size: 14px;
+  font-weight: 500;
+  @include tablet {
+    font-size: 12px;
+  }
+  @include mobile {
+    font-size: 12px;
+  }
+}
+p {
+  font-size: 14px;
+  @include tablet {
+    font-size: 12px;
+  }
+  @include mobile {
+    font-size: 12px;
+  }
 }

@@ -12,8 +12,7 @@ import { ProductListProps } from "../../redux/slices/productListSlice";
 
 const ProductList = memo(() => {
   // const [productList, setProductList] = useState<Array<ProductCardProps>>([]);
-  const [currentPage, setCurrentPage] = useState<number>(0);
-
+  // const [currentPage, setCurrentPage] = useState<number>(0);
   //lay danh sach san pham tu store productList
   const productList: ProductCardProps[] = useSelector(
     (state: { productList: ProductListProps }) => state.productList.products
@@ -21,6 +20,7 @@ const ProductList = memo(() => {
   const pagination: ProductListProps = useSelector(
     (state: { productList: ProductListProps }) => state.productList
   );
+  const currentPage: number = pagination.currentPage;
 
   const dispatch = useDispatch();
   const category = useLocation().pathname.split("/")[2];
@@ -37,21 +37,22 @@ const ProductList = memo(() => {
     getData();
   }, [currentPage]);
 
-  const handlePage = useCallback((page: number) => {
-    dispatch(
-      getProductList({
-        products: [],
-        skip: currentPage,
-        total: pagination.total,
-      })
-    );
-    setCurrentPage(page);
-  }, []);
+  // const handlePage = useCallback(() => {
+  //   dispatch(
+  //     getProductList({
+  //       products: [],
+  //       skip: currentPage,
+  //       total: pagination.total,
+  //       currentPage: currentPage,
+  //     })
+  //   );
+  //   // setCurrentPage(page);
+  // }, []);
   return (
     <section className={"productList"}>
       <div className={"productList__header"}>
         <ProductSorting />
-        <ProductPagination onClick={handlePage} currentPage={currentPage} />
+        <ProductPagination />
       </div>
       <div className={"productList__body"}>
         {productList.length === 0 ? (
