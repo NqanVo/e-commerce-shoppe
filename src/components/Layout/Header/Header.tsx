@@ -3,73 +3,120 @@ import "./Header.scss";
 import { FiShoppingCart } from "react-icons/fi";
 import Button from "../../UI/Button/Button";
 import { AiOutlineSearch } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getProductList } from "../../../redux/slices/productListSlice";
+import { fetchProducts } from "../../../fetchApi/fetchProducts";
+import HeadlessTippy from "@tippyjs/react/headless";
+import { AiOutlineClose } from "react-icons/ai";
 
 const Header = memo(() => {
   const [titleSearch, setTitleSearch] = useState<string>("");
+  const [showHistorySearch, setShowHistorySearch] = useState(false);
   const dispatch = useDispatch();
-  // let historySearch: any;
-  // const [historySearch,setHistorySearch] = useState<string | string[]>([])
-  // const getHistorySearch = () => {
-  //   historySearch = localStorage.getItem("historySearch");
-  //   if (historySearch) {
-  //     historySearch = JSON.parse(historySearch);
-  //   } else {
-  //     historySearch = [];
-  //   }
-  //   localStorage.setItem(
-  //     "historySearch",
-  //     JSON.stringify([...historySearch, titleSearch])
-  //   );
-  // };
-  useEffect(() => {
-    // getHistorySearch();
-  }, []);
-  const handleSearch = () => {
-    // getHistorySearch();
 
-    const getData = () => {
-      dispatch(
-        getProductList({ products: [], skip: 0, currentPage: 0, total: 0 })
-      );
-      fetch(`https://dummyjson.com/products/search?q=${titleSearch.trim()}`)
-        .then((res) => res.json())
-        .then((data) => {
-          dispatch(getProductList(data));
-        });
-    };
-    getData();
+  const [historySearch, setHistorySearch] = useState<string[]>([]);
+  const getHistorySearch = () => {
+    let historySearchLocal = localStorage.getItem("historySearch");
+    if (historySearchLocal) {
+      setHistorySearch([...JSON.parse(historySearchLocal!)]);
+    } else {
+      setHistorySearch([]);
+    }
   };
+  useEffect(() => {
+    getHistorySearch();
+  }, []);
+
+  const handleSearch = () => {
+    setShowHistorySearch(false);
+    localStorage.setItem(
+      "historySearch",
+      JSON.stringify([...historySearch, titleSearch])
+    );
+    getHistorySearch();
+    fetchProducts(
+      `https://dummyjson.com/products/search?q=${titleSearch.trim()}`,
+      dispatch
+    );
+  };
+
+  const handleDeleteAllHistory = () => {
+    localStorage.setItem("historySearch", JSON.stringify([]));
+    getHistorySearch();
+  };
+  const handleDeleteOneHistory = (indexRemove: number) => {
+    let historySearchLocal: string[] = JSON.parse(
+      localStorage.getItem("historySearch")!
+    );
+    historySearchLocal = historySearchLocal.filter(
+      (item, index) => index !== indexRemove
+    );
+    localStorage.setItem("historySearch", JSON.stringify(historySearchLocal));
+    getHistorySearch();
+  };
+
   return (
     <header>
       <div className="header__body">
         <Link to={"/"}>
           <h1 className="header__body__logo">Shọp pee</h1>
         </Link>
+
         <div className="header__body__searchForm">
           <input
             type="text"
             placeholder="Tìm kiếm sản phẩm!"
             value={titleSearch}
+            onFocus={() => setShowHistorySearch(true)}
             onChange={(e) => setTitleSearch(e.target.value)}
           />
-          <Button
-            Icon={AiOutlineSearch}
-            type="primary"
-            onClick={handleSearch}
-          ></Button>
-
-          {/* {historySearch && (
-            <div className="header__body__searchForm__history">
-              <p>haha</p>
-              <p>haha</p>
-              <p>haha</p>
-              <p>haha</p>
-            </div>
-          )} */}
+          <Link to={`/category?q=${titleSearch}`}>
+            <Button
+              Icon={AiOutlineSearch}
+              type="primary"
+              onClick={handleSearch}
+            ></Button>
+          </Link>
+          {showHistorySearch && historySearch.length > 0 && (
+            <HeadlessTippy
+              visible={true}
+              onClickOutside={() => setShowHistorySearch(false)}
+              interactive={true}
+              ignoreAttributes={true}
+              appendTo={() =>
+                document.querySelector(".header__body__searchForm__wrapper") ||
+                document.createElement("div")
+              }
+              render={(attrs) => (
+                <div
+                  className="header__body__searchForm__history"
+                  tabIndex={-1}
+                  {...attrs}
+                >
+                  <h3 className="header__body__searchForm__history__title">
+                    <span>Lịch sử tìm kiếm</span>
+                    <Button
+                      title="Xóa tất cả"
+                      type="secondary"
+                      onClick={handleDeleteAllHistory}
+                    ></Button>
+                  </h3>
+                  {historySearch &&
+                    historySearch.map((item, index) => (
+                      <p key={index}>
+                        <span onClick={() => setTitleSearch(item)}>{item}</span>
+                        <AiOutlineClose
+                          onClick={() => handleDeleteOneHistory(index)}
+                        />
+                      </p>
+                    ))}
+                </div>
+              )}
+            ></HeadlessTippy>
+          )}
+          <div className="header__body__searchForm__wrapper" />
         </div>
+
         <div className="header__body__cart">
           <FiShoppingCart size={32} />
         </div>

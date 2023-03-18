@@ -13,14 +13,30 @@ body {
   font-family: "Roboto", sans-serif;
   background-color: #efefef;
 }
-
+.wrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  @include mobile{
+    gap:10px
+  }
+}
 .container {
   width: 1200px;
   margin: 0 auto;
+
+  @include mobile{
+    width: 100%;
+  }
 }
 .container__productList {
   display: grid;
   grid-template-columns: 16.667% 83.333%;
+
+  @include mobile{
+    grid-template-columns: 100%;
+
+  }
 }
 .container__productDetail {
   display: flex;
