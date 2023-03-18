@@ -1,0 +1,35 @@
+@import "../../../assets/globaVariablelStyle/variable";
+
+.productDetail{
+    &__thumbnail {
+        grid-column: span 2;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        & img {
+          width: 100%;
+          height: 450px;
+          display: flex;
+          object-fit: contain;
+        }
+    
+        &__listImage {
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+          grid-gap: 10px;
+    
+          & img {
+            width: 100%;
+            height: 82px;
+            display: flex;
+            object-fit: cover;
+            cursor: pointer;
+    
+            &:hover {
+              outline: 3px solid $primary-color;
+            }
+          }
+        }
+      }
+}

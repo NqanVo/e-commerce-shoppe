@@ -11,6 +11,11 @@
     display: flex;
     justify-content: space-between;
     background-color: #e2e2e2;
+
+    @include mobile {
+    padding: 10px 10px;
+
+    }
   }
   &__body {
     width: 100%;
@@ -20,6 +25,8 @@
 
     @include mobile {
       grid-template-columns: repeat(3, 1fr);
+    grid-gap: 5px;
+
     }
   }
 }

@@ -6,6 +6,7 @@ export interface ProductListProps {
   total: number;
   skip: number;
   currentPage: number;
+  loading: boolean;
 }
 
 const initialState: ProductListProps = {
@@ -13,12 +14,16 @@ const initialState: ProductListProps = {
   total: 0,
   skip: 0,
   currentPage: 0,
+  loading: false,
 };
 
 const productListSlice = createSlice({
   name: "productList",
   initialState,
   reducers: {
+    awaitGetProductList: (state: ProductListProps) => {
+      return { ...state, loading: true };
+    },
     getProductList: (
       state: ProductListProps,
       action: { payload: ProductListProps }
@@ -26,6 +31,7 @@ const productListSlice = createSlice({
       state.products = action.payload.products;
       state.total = action.payload.total;
       state.skip = action.payload.skip;
+      state.loading = action.payload.loading;
     },
     nextPage: (state) => {
       return { ...state, currentPage: state.currentPage + 1 };
@@ -36,5 +42,6 @@ const productListSlice = createSlice({
   },
 });
 
-export const { getProductList, nextPage, prevPage } = productListSlice.actions;
+export const { awaitGetProductList, getProductList, nextPage, prevPage } =
+  productListSlice.actions;
 export default productListSlice.reducer;

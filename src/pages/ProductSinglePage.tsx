@@ -1,5 +1,6 @@
 import React, { memo, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import Footer from "../components/Layout/Footer/Footer";
 import Header from "../components/Layout/Header/Header";
 import ProductDetail from "../components/ProductDetail/ProductDetail";
 
@@ -20,7 +21,7 @@ const ProductSinglePage = memo(() => {
   }, []);
 
   return (
-    <div className="">
+    <div className="wrapper">
       <Header></Header>
       <div className="container container__productDetail">
         {!productDetail ? (
@@ -41,6 +42,7 @@ const ProductSinglePage = memo(() => {
           ></ProductDetail>
         )}
       </div>
+      <Footer></Footer>
     </div>
   );
 });

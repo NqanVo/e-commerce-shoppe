@@ -23,6 +23,7 @@ const ProductPagination = memo(() => {
         skip: pagination.currentPage,
         total: pagination.total,
         currentPage: pagination.currentPage,
+        loading: false,
       })
     );
   };
@@ -34,6 +35,7 @@ const ProductPagination = memo(() => {
         skip: pagination.currentPage,
         total: pagination.total,
         currentPage: pagination.currentPage,
+        loading: false,
       })
     );
   };
