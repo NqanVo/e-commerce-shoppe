@@ -7,6 +7,8 @@ interface ButtonProps {
   size?: "medium" | "large";
   title?: string;
   Icon?: IconType;
+  sizeIcon?: number;
+  colorIcon?: string;
   disabled?: boolean;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
@@ -17,6 +19,8 @@ const Button = memo(
     size = "medium",
     title,
     Icon,
+    sizeIcon = 16,
+    colorIcon = "black",
     onClick,
     disabled = false,
   }: ButtonProps) => {
@@ -31,7 +35,7 @@ const Button = memo(
 
     return (
       <button onClick={onClick} className={getClass()} disabled={disabled}>
-        {Icon && <Icon />} {title && title}
+        {Icon && <Icon size={sizeIcon} color={colorIcon} />} {title && title}
       </button>
     );
   }

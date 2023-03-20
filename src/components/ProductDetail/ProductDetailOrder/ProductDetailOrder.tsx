@@ -56,6 +56,8 @@ const ProductDetailOrder = memo(({ stock }: props) => {
       <div className="productDetail__body__formOrder__buttons">
         <Button
           Icon={BsCartPlus}
+          sizeIcon={16}
+          colorIcon="#ee4d2d"
           title={"Thêm vào giỏ hàng"}
           type="secondary"
           size="large"

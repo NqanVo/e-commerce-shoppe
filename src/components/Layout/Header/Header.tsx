@@ -4,16 +4,19 @@ import { FiShoppingCart } from "react-icons/fi";
 import Button from "../../UI/Button/Button";
 import { AiOutlineSearch } from "react-icons/ai";
 import { Link, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../../fetchApi/fetchProducts";
 import HeadlessTippy from "@tippyjs/react/headless";
 import { AiOutlineClose } from "react-icons/ai";
+import { initStateLoginProps } from "../../../redux/slices/authSlice";
 
 const Header = memo(() => {
   const [titleSearch, setTitleSearch] = useState<string>("");
   const [showHistorySearch, setShowHistorySearch] = useState(false);
   const dispatch = useDispatch();
-
+  const userID = useSelector(
+    (state: { auth: initStateLoginProps }) => state.auth.userData
+  );
   const [historySearch, setHistorySearch] = useState<string[]>([]);
   const getHistorySearch = () => {
     let historySearchLocal = localStorage.getItem("historySearch");
@@ -58,6 +61,16 @@ const Header = memo(() => {
   return (
     <header>
       <div className="header__body">
+        <div className=""></div>
+        <div className="header__body__auth">
+          {userID ? (
+            <Link to={`/user/account/profile`}>Tài khoản</Link>
+          ) : (
+            <Link to={"/login"}>Đăng nhập</Link>
+          )}
+        </div>
+      </div>
+      <div className="header__body">
         <Link to={"/"}>
           <h1 className="header__body__logo">Shọp pee</h1>
         </Link>
@@ -73,6 +86,7 @@ const Header = memo(() => {
           <Link to={`/category?q=${titleSearch}`}>
             <Button
               Icon={AiOutlineSearch}
+              colorIcon={"white"}
               type="primary"
               onClick={handleSearch}
             ></Button>
