@@ -28,10 +28,13 @@ const productListSlice = createSlice({
       state: ProductListProps,
       action: { payload: ProductListProps }
     ) => {
-      state.products = action.payload.products;
-      state.total = action.payload.total;
-      state.skip = action.payload.skip;
-      state.loading = action.payload.loading;
+      return {
+        ...state,
+        products: action.payload.products,
+        total: action.payload.total,
+        skip: action.payload.skip,
+        loading: action.payload.loading,
+      };
     },
     nextPage: (state) => {
       return { ...state, currentPage: state.currentPage + 1 };

@@ -11,6 +11,7 @@ const Filters = memo(() => {
   const category = useLocation().pathname.split("/")[2];
   const [categories, setCategories] = useState<Array<string>>([]);
   const dispatch = useDispatch();
+
   useEffect(() => {
     const getCate = () => {
       fetch("https://dummyjson.com/products/categories")

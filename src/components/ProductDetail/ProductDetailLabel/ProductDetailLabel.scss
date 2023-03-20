@@ -7,11 +7,23 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       &__item {
+        width: 100%;
         display: flex;
         justify-content: start;
         align-items: center;
         & img {
           transform: scale(0.4);
+          @include mobile {
+            transform: scale(0.3);
+          }
+
+          & h3 {
+            flex: 1;
+          }
+        }
+
+        @include mobile {
+          font-size: 12px;
         }
       }
     }
