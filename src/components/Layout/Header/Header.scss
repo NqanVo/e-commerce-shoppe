@@ -19,6 +19,7 @@ header {
 
   @include mobile {
     width: 100%;
+    padding: 0 20px;
   }
 
   &__auth > * {
@@ -93,5 +94,9 @@ header {
   &__cart {
     padding: 0 50px;
     cursor: pointer;
+
+    @include mobile{
+      padding: 0;
+    }
   }
 }

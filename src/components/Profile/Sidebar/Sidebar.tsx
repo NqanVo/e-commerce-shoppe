@@ -25,7 +25,7 @@ const Sidebar = memo((props: { userData: ProfileProps }) => {
         menu="account"
         url="/user/account/profile"
         menu_active={menu_active}
-        title="Tài khoản của tôi"
+        title="Tài khoản"
         subMenu_active={subMenu_active}
         subMenu={[
           {
@@ -68,7 +68,7 @@ const Sidebar = memo((props: { userData: ProfileProps }) => {
           {
             url: "/user/notifications/order",
             subMenu: "order",
-            title: "Cập Nhật Đơn Hàng",
+            title: "Đơn Hàng",
           },
           {
             url: "/user/notifications/promotion",

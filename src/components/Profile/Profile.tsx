@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./Profile.scss";
 import Footer from "../Layout/Footer/Footer";
 import Header from "../Layout/Header/Header";
-
+import { NotificationManager } from "react-notifications";
 import { fetchWithAuth } from "../../fetchApi/fetchWithAuth";
 import Loading from "../UI/Loading/Loading";
 import Sidebar from "./Sidebar/Sidebar";
@@ -68,6 +68,9 @@ export interface ProfileProps {
 }
 
 const Profile = () => {
+  const [userData, setUserData] = useState<ProfileProps>();
+  const subMenu_active = useLocation().pathname.split("/")[3];
+
   useEffect(() => {
     const getDataUserApi = async () => {
       await fetchWithAuth("https://dummyjson.com/users/15", {}).then((data) =>
@@ -76,10 +79,11 @@ const Profile = () => {
     };
     getDataUserApi();
   }, []);
-  const [userData, setUserData] = useState<ProfileProps>();
 
-  const subMenu_active = useLocation().pathname.split("/")[3];
-
+  const handleUpdateInfo = useCallback((data: ProfileProps) => {
+    setUserData(data);
+  }, []);
+  // console.log(userData);
   return (
     <div>
       <Header />
@@ -89,7 +93,9 @@ const Profile = () => {
         <section className="container container__profile">
           <Sidebar userData={userData}></Sidebar>
           <div className="profile__body">
-            {subMenu_active === "profile" && <BodyInfo userData={userData} />}
+            {subMenu_active === "profile" && userData && (
+              <BodyInfo userData={userData} handleUpdate={handleUpdateInfo} />
+            )}
           </div>
         </section>
       )}

@@ -4,20 +4,28 @@ import FormSubmit from "../../../UI/FormSubmit/FormSubmit";
 import Input from "../../../UI/Input/Input";
 import Button from "../../../UI/Button/Button";
 import { ProfileProps } from "../../Profile";
+import { fetchWithAuth } from "../../../../fetchApi/fetchWithAuth";
+import { Notify } from "../../../UI/Notify/Notify";
 
-type FormValues = {
+interface FormValues {
+  [key: string]: string | File;
   username: string;
-  name: string;
+  lastName: string;
   email: string;
   phone: string;
-  gender: "Nam" | "Nữ"; // Chỉ chấp nhận 'Nam' hoặc 'Nữ'
+  gender: "male" | "female";
   day: string;
   month: string;
   year: string;
-  image: string;
-};
+  image: File;
+}
 
-const BodyInfo = memo((props: { userData: ProfileProps }) => {
+interface BodyInfoProps {
+  userData: ProfileProps;
+  handleUpdate: (data: ProfileProps) => void;
+}
+
+const BodyInfo = memo((props: BodyInfoProps) => {
   const {
     register,
     watch,
@@ -25,9 +33,22 @@ const BodyInfo = memo((props: { userData: ProfileProps }) => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  function onSubmit(data: FormValues) {
-    console.log(data);
-  }
+  const onSubmit = async (data: FormValues) => {
+    const birthDate = data.year + "-" + data.month + "-" + data.day;
+    const newData = { ...data, birthDate: birthDate };
+    const { day, year, month, ...other }: FormValues = newData;
+    const formData = new FormData();
+
+    for (let key in other) formData.append(key, other[key]);
+    // console.log(formData);
+
+    await fetchWithAuth(`https://dummyjson.com/users/${props.userData.id}`, {
+      method: "PUT",
+      body: formData,
+    }).then((data) => {
+      props.handleUpdate(data);
+    });
+  };
 
   return (
     <>
@@ -45,14 +66,15 @@ const BodyInfo = memo((props: { userData: ProfileProps }) => {
               value={props.userData.username}
               errors={errors.username}
               type="text"
-              rules={{ required: "Tên không được bỏ trống" }}
+              rules={{}}
+              disabled={true}
             ></Input>
             <Input
               title="Tên"
-              name="name"
+              name="lastName"
               register={register}
               value={props.userData.lastName}
-              errors={errors.name}
+              errors={errors.lastName}
               type="text"
               rules={{ required: "Tên không được bỏ trống" }}
             ></Input>
@@ -74,7 +96,6 @@ const BodyInfo = memo((props: { userData: ProfileProps }) => {
               type="tel"
               rules={{ required: "Tên không được bỏ trống" }}
             ></Input>
-
             <div className="input__body">
               <label>Giới tính</label>
               <div className="input__body input__body__raido">
@@ -82,7 +103,7 @@ const BodyInfo = memo((props: { userData: ProfileProps }) => {
                 <input
                   type="radio"
                   id="male"
-                  value="Nam"
+                  value="male"
                   defaultChecked={props.userData.gender === "male"}
                   {...register("gender", {})}
                 />
@@ -92,7 +113,7 @@ const BodyInfo = memo((props: { userData: ProfileProps }) => {
                 <input
                   type="radio"
                   id="female"
-                  value="Nữ"
+                  value="female"
                   defaultChecked={props.userData.gender === "female"}
                   {...register("gender", {})}
                 />
@@ -135,16 +156,11 @@ const BodyInfo = memo((props: { userData: ProfileProps }) => {
             </div>
             <div className="input__body">
               <label htmlFor=""></label>
-              <Button
-                size="medium"
-                type="primary"
-                title="Lưu"
-                disabled={true}
-              ></Button>
+              <Button size="medium" type="primary" title="Lưu"></Button>
             </div>
           </div>
           <div className="profile__body__formInfo__right">
-            <label className="" htmlFor="imageFileInfo">
+            {/* <label className="" htmlFor="imageFileInfo">
               <input
                 id="imageFileInfo"
                 type="file"
@@ -153,7 +169,19 @@ const BodyInfo = memo((props: { userData: ProfileProps }) => {
               />
               <span className="">Chọn ảnh</span>
               <p>Dụng lượng file tối đa 1 MB Định dạng:.JPEG, .PNG</p>
-            </label>
+            </label> */}
+            <div className="">
+              <Input
+                title="Link ảnh"
+                name="image"
+                register={register}
+                value={props.userData.image}
+                errors={errors.image}
+                type="text"
+                rules={{}}
+              ></Input>
+              <p>Dụng lượng file tối đa 1 MB Định dạng:.JPEG, .PNG</p>
+            </div>
           </div>
         </div>
       </FormSubmit>

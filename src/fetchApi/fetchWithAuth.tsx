@@ -1,6 +1,6 @@
 import { LoginUserProps } from "../components/Layout/Auth/Auth";
 import jwt_decode from "jwt-decode";
-// import { NavigateProps } from "react-router-dom";
+import { Notify } from "../components/UI/Notify/Notify";
 
 export const fetchWithAuth = async (url: string, options: any = {}) => {
   const userData: LoginUserProps = JSON.parse(
@@ -28,8 +28,13 @@ export const fetchWithAuth = async (url: string, options: any = {}) => {
   const response = await fetch(url, options);
 
   if (!response.ok) {
+    Notify(response.status, response.statusText);
+    // await new Promise((resolve) => setTimeout(resolve, 100));
+
     throw new Error(`HTTP error! status: ${response.status}`);
   }
+  Notify(response.status, response.statusText);
+  // await new Promise((resolve) => setTimeout(resolve, 100));
 
   const data = await response.json();
 
