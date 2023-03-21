@@ -5,28 +5,46 @@
   grid-template-columns: repeat(5, 1fr);
   padding: 20px 0;
 
+  @include mobile {
+    grid-template-columns: repeat(1, 1fr);
+  }
   & .profile__body {
     grid-column: span 4;
     background-color: white;
     padding: 20px;
     border-radius: 2px;
     box-shadow: 2px 0 10px rgba($color: #000000, $alpha: 0.1);
+    grid-column: span 4;
 
+    @include mobile {
+      padding: 10px;
+    }
     &__heading {
       font-weight: 400;
       border-bottom: 1px solid rgba($color: #000000, $alpha: 0.1);
       padding-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap:10px
     }
 
     &__formInfo {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 50px;
+      @include mobile {
+        gap: 10px;
+      }
       &__left {
         grid-column: span 2;
         display: flex;
         flex-direction: column;
         gap: 20px;
+        @include mobile {
+          gap: 10px;
+        grid-column: span 3;
+
+        }
       }
       &__right {
         grid-column: span 1;
@@ -34,7 +52,9 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-
+        @include mobile {
+          display: none;
+        }
         & label {
           cursor: pointer;
           display: flex;

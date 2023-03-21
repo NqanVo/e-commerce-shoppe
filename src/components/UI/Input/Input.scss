@@ -1,8 +1,13 @@
+@import "../../../assets/globaVariablelStyle/variable";
+
 .input__body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   column-gap: 20px;
   align-items: center;
+  @include mobile {
+    column-gap: 10px;
+  }
 
   & label,
   span {
@@ -11,6 +16,9 @@
   & label {
     grid-column: span 1;
     justify-self: flex-end;
+    @include mobile {
+      justify-self: flex-start;
+    }
   }
   & span {
     color: red;

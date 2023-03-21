@@ -6,6 +6,11 @@
   flex-direction: column;
   gap: 15px;
 
+  @include mobile {
+  flex-direction: row;
+  gap: 10px;
+  justify-content: space-around;
+  }
   &__menu {
     display: flex;
     flex-direction: column;
@@ -15,6 +20,12 @@
       display: flex;
       gap: 20px;
       align-items: center;
+      @include mobile{
+        flex-direction: column;
+        text-align: center;
+      gap: 10px;
+
+      }
       & img {
         width: 50px;
         height: 50px;
