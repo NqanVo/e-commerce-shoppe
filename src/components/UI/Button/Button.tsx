@@ -4,7 +4,7 @@ import "./Button.scss";
 
 interface ButtonProps {
   type?: "primary" | "secondary" | "normal";
-  size?: "medium" | "large";
+  size?: "small" | "medium" | "large";
   title?: string;
   Icon?: IconType;
   sizeIcon?: number;
@@ -29,6 +29,7 @@ const Button = memo(
       if (type === "primary") classes += " primary";
       if (type === "secondary") classes += " secondary";
       if (size === "large") classes += " large";
+      if (size === "small") classes += " small";
       if (disabled) classes += " disabled";
       return classes;
     };

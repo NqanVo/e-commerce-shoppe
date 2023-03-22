@@ -1,0 +1,71 @@
+@import "../../../../assets/globaVariablelStyle/variable";
+
+.profile__body__formInfo {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 50px;
+  @include mobile {
+    gap: 10px;
+  }
+  @include tablet {
+    gap: 10px;
+  }
+  &__left {
+    grid-column: span 2;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    @include mobile {
+      gap: 10px;
+      grid-column: span 3;
+    }
+    @include tablet {
+      gap: 10px;
+      grid-column: span 2;
+    }
+    .input__body__raido {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      grid-column: span 2;
+    }
+
+    .input__body__select {
+      display: flex;
+      gap: 10px;
+      grid-column: span 2;
+    }
+  }
+  &__right {
+    grid-column: span 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    @include mobile {
+      display: none;
+    }
+    & label {
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      gap: 10px;
+      & input & p {
+        font-size: 14px;
+      }
+      & span {
+        padding: 10px;
+        width: fit-content;
+        border: 1px solid rgba($color: #000000, $alpha: 0.2);
+      }
+      & input {
+        display: none;
+      }
+    }
+  }
+}
