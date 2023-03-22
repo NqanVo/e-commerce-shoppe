@@ -4,9 +4,16 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   padding: 20px 0;
+  width: 1200px;
 
   @include mobile {
     grid-template-columns: repeat(1, 1fr);
+    width: 100%;
+    padding: 20px 10px;
+  }
+  @include tablet {
+    width: 100%;
+    padding: 20px 10px;
   }
   & .profile__body {
     grid-column: span 4;
@@ -19,61 +26,56 @@
     @include mobile {
       padding: 10px;
     }
+    @include tablet {
+      padding: 10px;
+    }
     &__heading {
       font-weight: 400;
       border-bottom: 1px solid rgba($color: #000000, $alpha: 0.1);
       padding-bottom: 20px;
       display: flex;
-      flex-direction: column;
-      gap:10px
-    }
+      justify-content: space-between;
 
-    &__formInfo {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 50px;
-      @include mobile {
+      &__title {
+        display: flex;
+        flex-direction: column;
         gap: 10px;
       }
-      &__left {
-        grid-column: span 2;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        @include mobile {
-          gap: 10px;
-        grid-column: span 3;
+    }
 
-        }
-      }
-      &__right {
-        grid-column: span 1;
+    &__address {
+      display: flex;
+      flex-direction: column;
+
+      &__item {
         display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        justify-content: space-between;
+        padding: 25px 0;
         @include mobile {
-          display: none;
+          flex-direction: column;
         }
-        & label {
-          cursor: pointer;
+        &__detail {
           display: flex;
           flex-direction: column;
-          justify-content: center;
-          align-items: center;
+          gap: 5px;
+          & h3 span:first-child {
+            border-right: 1px solid black;
+            padding: 0 5px 0 0;
+          }
+          & h3 span:last-child {
+            padding: 0 0 0 5px;
+          }
+          &__tag {
+            display: flex;
+            gap: 5px;
+          }
+        }
 
-          gap: 10px;
-          & input & p {
-            font-size: 14px;
-          }
-          & span {
-            padding: 10px;
-            width: fit-content;
-            border: 1px solid rgba($color: #000000, $alpha: 0.2);
-          }
-          & input {
-            display: none;
-          }
+        &__action {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+          text-align: right;
         }
       }
     }

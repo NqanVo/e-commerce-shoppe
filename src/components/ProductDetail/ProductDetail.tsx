@@ -60,7 +60,7 @@ const ProductDetail = memo(({ ...props }: ProductDetailProps) => {
             <img src={icon_free_ship} alt="" />
             <h3>Miễn phí vận chuyển</h3>
           </div>
-          <ProductDetailOrder stock={props.stock} />
+          <ProductDetailOrder id={props.id} stock={props.stock} />
           <ProductDetailLabel />
         </div>
       </div>

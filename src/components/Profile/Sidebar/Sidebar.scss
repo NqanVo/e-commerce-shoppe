@@ -7,9 +7,9 @@
   gap: 15px;
 
   @include mobile {
-  flex-direction: row;
-  gap: 10px;
-  justify-content: space-around;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: space-around;
   }
   &__menu {
     display: flex;
@@ -20,11 +20,10 @@
       display: flex;
       gap: 20px;
       align-items: center;
-      @include mobile{
+      @include mobile {
         flex-direction: column;
         text-align: center;
-      gap: 10px;
-
+        gap: 10px;
       }
       & img {
         width: 50px;
@@ -47,6 +46,9 @@
       gap: 5px;
       padding: 0 0 0 20px;
 
+      // @include mobile {
+      //   display: none;
+      // }
       & p:hover {
         cursor: pointer;
         color: $primary-color;

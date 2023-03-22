@@ -5,7 +5,7 @@ import Input from "../../../UI/Input/Input";
 import Button from "../../../UI/Button/Button";
 import { ProfileProps } from "../../Profile";
 import { fetchWithAuth } from "../../../../fetchApi/fetchWithAuth";
-import { Notify } from "../../../UI/Notify/Notify";
+import "./BodyInfo.scss";
 
 interface FormValues {
   [key: string]: string | File;
@@ -53,8 +53,10 @@ const BodyInfo = memo((props: BodyInfoProps) => {
   return (
     <>
       <div className="profile__body__heading">
-        <h2>Hồ Sơ Của Tôi</h2>
-        <p>Quản lý thông tin hồ sơ để bảo mật tài khoản</p>
+        <div className="profile__body__heading__title">
+          <h2>Hồ Sơ Của Tôi</h2>
+          <p>Quản lý thông tin hồ sơ để bảo mật tài khoản</p>
+        </div>
       </div>
       <FormSubmit handleSubmit={handleSubmit} onSubmit={onSubmit}>
         <div className="profile__body__formInfo">
@@ -98,30 +100,32 @@ const BodyInfo = memo((props: BodyInfoProps) => {
             ></Input>
             <div className="input__body">
               <label>Giới tính</label>
-              <div className="input__body input__body__raido">
-                <label htmlFor="male">Nam</label>
-                <input
-                  type="radio"
-                  id="male"
-                  value="male"
-                  defaultChecked={props.userData.gender === "male"}
-                  {...register("gender", {})}
-                />
-              </div>
-              <div className="input__body input__body__raido">
-                <label htmlFor="female">Nữ</label>
-                <input
-                  type="radio"
-                  id="female"
-                  value="female"
-                  defaultChecked={props.userData.gender === "female"}
-                  {...register("gender", {})}
-                />
+              <div className="input__body__raido">
+                <div className="input__body">
+                  <label htmlFor="male">Nam</label>
+                  <input
+                    type="radio"
+                    id="male"
+                    value="male"
+                    defaultChecked={props.userData.gender === "male"}
+                    {...register("gender", {})}
+                  />
+                </div>
+                <div className="input__body">
+                  <label htmlFor="female">Nữ</label>
+                  <input
+                    type="radio"
+                    id="female"
+                    value="female"
+                    defaultChecked={props.userData.gender === "female"}
+                    {...register("gender", {})}
+                  />
+                </div>
               </div>
             </div>
             <div className="input__body">
               <label>Ngày sinh</label>
-              <div className="input__body">
+              <div className="input__body__select">
                 <select
                   {...register("day", {})}
                   defaultValue={props.userData.birthDate.split("-")[2]}
@@ -160,16 +164,6 @@ const BodyInfo = memo((props: BodyInfoProps) => {
             </div>
           </div>
           <div className="profile__body__formInfo__right">
-            {/* <label className="" htmlFor="imageFileInfo">
-              <input
-                id="imageFileInfo"
-                type="file"
-                accept="image/*"
-                {...register("image", {})}
-              />
-              <span className="">Chọn ảnh</span>
-              <p>Dụng lượng file tối đa 1 MB Định dạng:.JPEG, .PNG</p>
-            </label> */}
             <div className="">
               <Input
                 title="Link ảnh"

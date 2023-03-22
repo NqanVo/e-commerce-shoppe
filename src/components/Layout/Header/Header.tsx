@@ -132,7 +132,9 @@ const Header = memo(() => {
         </div>
 
         <div className="header__body__cart">
-          <FiShoppingCart size={32} />
+          <Link to={"/cart"}>
+            <FiShoppingCart color="white" size={32} />
+          </Link>
         </div>
       </div>
     </header>

@@ -2,12 +2,12 @@ import React, { useCallback, useEffect, useState } from "react";
 import "./Profile.scss";
 import Footer from "../Layout/Footer/Footer";
 import Header from "../Layout/Header/Header";
-import { NotificationManager } from "react-notifications";
 import { fetchWithAuth } from "../../fetchApi/fetchWithAuth";
 import Loading from "../UI/Loading/Loading";
 import Sidebar from "./Sidebar/Sidebar";
 import BodyInfo from "./Body/BodyInfo/BodyInfo";
 import { useLocation } from "react-router-dom";
+import BodyAddress from "./Body/BodyAddress/BodyAddress";
 
 export interface ProfileProps {
   address: string;
@@ -29,7 +29,10 @@ export interface ProfileProps {
   birthDate: string;
   bloodGroup: string;
   company: {
-    address: string;
+    address: {
+      address: string;
+      city: string;
+    };
     city: string;
     coordinates: {
       lat: number;
@@ -93,8 +96,11 @@ const Profile = () => {
         <section className="container container__profile">
           <Sidebar userData={userData}></Sidebar>
           <div className="profile__body">
-            {subMenu_active === "profile" && userData && (
+            {subMenu_active === "profile" && (
               <BodyInfo userData={userData} handleUpdate={handleUpdateInfo} />
+            )}
+            {subMenu_active === "address" && (
+              <BodyAddress userData={userData} />
             )}
           </div>
         </section>
