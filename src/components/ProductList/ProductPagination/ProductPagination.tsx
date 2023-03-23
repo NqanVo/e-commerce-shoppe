@@ -47,7 +47,7 @@ const ProductPagination = memo(() => {
             <span style={{ color: "#ee4d2d" }}>
               {pagination.currentPage + 1}
             </span>
-            /{pagination.total / 20}
+            /{Math.ceil(pagination.total / 20)}
           </p>
           <div className="">
             <Button

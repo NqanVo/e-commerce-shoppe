@@ -21,6 +21,7 @@ const Header = memo(() => {
     (state: { auth: initStateLoginProps }) => state.auth.userData
   );
   const [historySearch, setHistorySearch] = useState<string[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
   const getHistorySearch = () => {
     let historySearchLocal = localStorage.getItem("historySearch");
     if (historySearchLocal) {
@@ -32,7 +33,14 @@ const Header = memo(() => {
   useEffect(() => {
     getHistorySearch();
   }, []);
-
+  useEffect(() => {
+    const getCate = () => {
+      fetch("https://dummyjson.com/products/categories")
+        .then((res) => res.json())
+        .then((data) => setCategories(data));
+    };
+    getCate();
+  });
   const handleSearch = () => {
     if (titleSearch) {
       setShowHistorySearch(false);
@@ -96,7 +104,7 @@ const Header = memo(() => {
               onClick={handleSearch}
             ></Button>
           </Link>
-          {showHistorySearch && historySearch.length > 0 && (
+          {showHistorySearch && (
             <HeadlessTippy
               visible={true}
               onClickOutside={() => setShowHistorySearch(false)}
@@ -128,6 +136,19 @@ const Header = memo(() => {
                           onClick={() => handleDeleteOneHistory(index)}
                         />
                       </p>
+                    ))}
+                  <h3 className="header__body__searchForm__history__title">
+                    <span>Danh mục</span>
+                  </h3>
+                  {categories &&
+                    categories.map((item, index) => (
+                      <Link key={index} to={`/category/${item}`}>
+                        <p>
+                          <span onClick={() => setTitleSearch(item)}>
+                            {item}
+                          </span>
+                        </p>
+                      </Link>
                     ))}
                 </div>
               )}

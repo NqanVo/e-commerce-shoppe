@@ -10,6 +10,8 @@
     flex-direction: row;
     gap: 10px;
     justify-content: space-around;
+    margin-bottom: 10px;
+    align-items: center;
   }
   &__menu {
     display: flex;
@@ -39,6 +41,10 @@
       &:hover {
         cursor: pointer;
       }
+
+      @include mobile {
+        display: none;
+      }
     }
     &__sub {
       display: flex;
@@ -46,17 +52,70 @@
       gap: 5px;
       padding: 0 0 0 20px;
 
-      // @include mobile {
-      //   display: none;
-      // }
+      @include mobile {
+        display: none;
+      }
       & p:hover {
         cursor: pointer;
         color: $primary-color;
       }
     }
   }
-}
 
+
+}
+.profile__navMobile {
+  position: fixed;
+  inset: 0;
+  background-color: rgba($color: #000000, $alpha: 0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  padding: 150px 100px;
+
+
+  
+  & * {
+    color: white;
+    font-size: 14px !important;
+    text-shadow: 5px 0 10px rgba($color: #000000, $alpha: 0.2);
+  }
+  & h3 {
+    font-size: 16px !important;
+  }
+
+    &__menuMobile{
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      & h3{
+        font-weight: 700;
+      }
+      &__subMobile{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+      }
+    }
+
+    &__btn{
+      position: fixed;
+      top: 133px;
+      right: 50px;
+    }
+}
 .active {
   color: $primary-color;
+}
+.profile__navMobile__open{
+  display: flex;
+  @include tablet{
+    display: none;
+  }
+  @include desktop{
+    display: none;
+  }
 }

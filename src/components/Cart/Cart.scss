@@ -11,6 +11,7 @@
     padding: 20px;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
+    gap: 5px;
     @include mobile {
       padding: 10px;
 
@@ -36,18 +37,17 @@
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     align-items: center;
-
+    gap: 5px;
     @include mobile {
-      padding: 10px;
-
-      grid-template-columns: repeat(6, 1fr);
+      padding: 5px;
+      grid-template-columns: repeat(5, 1fr);
     }
     & > :first-child {
       grid-column: span 4;
       align-items: center;
 
       @include mobile {
-        grid-column: span 2;
+        grid-column: span 1;
       }
     }
 
@@ -58,15 +58,15 @@
     &__title {
       display: flex;
       gap: 10px;
-
+      font-weight: 700;
       & img {
         width: 80px;
         height: 80px;
         object-fit: cover;
 
         @include mobile {
-          width: 50px;
-          height: 50px;
+          width: 40px;
+          height: 40px;
         }
       }
     }
@@ -101,6 +101,8 @@
   @include mobile {
     width: 100%;
     font-size: 14px;
+  padding: 5px;
+
   }
 
   @include tablet {
@@ -111,5 +113,10 @@
     display: flex;
     align-items: center;
     gap: 20px;
+
+    @include mobile{
+      gap: 5px;
+
+    }
   }
 }

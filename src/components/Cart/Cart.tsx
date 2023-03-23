@@ -120,9 +120,21 @@ const Cart = memo(() => {
                   <img src={product.thumbnail} alt={product.thumbnail} />
                   <p>{product.title}</p>
                 </div>
-                <p>{product.price}</p>
+                <p>
+                  {(product.price * 23500).toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </p>
                 <p>{cartData[index]?.quality}</p>
-                <p>{Number(cartData[index]?.quality * product.price)}</p>
+                <p>
+                  {(
+                    Number(cartData[index]?.quality * product.price) * 23500
+                  ).toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </p>
                 <p onClick={() => handleDeleteOneProduct(index)}>Xóa</p>
               </div>
             ))}

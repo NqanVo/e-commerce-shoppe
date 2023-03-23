@@ -19,7 +19,7 @@ header {
 
   @include mobile {
     width: 100%;
-    padding: 0 20px;
+    padding: 0 10px;
   }
   @include tablet {
     width: 100%;
@@ -45,7 +45,7 @@ header {
     position: relative;
 
     @include mobile {
-      width: 50%;
+      width: 55%;
     }
 
     &__wrapper {

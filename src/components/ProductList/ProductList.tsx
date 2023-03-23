@@ -15,6 +15,7 @@ const ProductList = memo(() => {
   const dispatch = useDispatch();
   const category = useLocation().pathname.split("/")[2];
   const searchParams = new URLSearchParams(useLocation().search).get("q");
+  // console.log(category);
 
   const [sortProducts, setSortProducts] = useState<{
     nomarl: boolean;
