@@ -1,5 +1,15 @@
 @import "../../../assets/globaVariablelStyle/variable";
 
+.loading__wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba($color: #000000, $alpha: 0.1);
+}
+
 .lds-ellipsis {
   display: block;
   position: relative;
