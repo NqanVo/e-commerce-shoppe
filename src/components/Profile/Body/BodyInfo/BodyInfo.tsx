@@ -160,7 +160,7 @@ const BodyInfo = memo((props: BodyInfoProps) => {
             </div>
             <div className="input__body">
               <label htmlFor=""></label>
-              <Button size="medium" type="primary" title="Lưu"></Button>
+              <Button size="large" type="primary" title="Lưu"></Button>
             </div>
           </div>
           <div className="profile__body__formInfo__right">

@@ -52,7 +52,7 @@ const CartOrder = memo(
           <div className="cart__order">
             <div className="cart__order__input">
               {orderAll ? (
-                <AiOutlineClose onClick={handleCannelAll} />
+                <AiOutlineClose onClick={handleCannelAll} size={26} />
               ) : (
                 <input
                   id="orderAll"
@@ -72,7 +72,11 @@ const CartOrder = memo(
             <div className="cart__order__input">
               <label htmlFor="">
                 Tổng thanh toán ({shopping && totalProducts} Sản phẩm):{" "}
-                {shopping && totalPriceProducts}
+                {shopping &&
+                  (totalPriceProducts * 23500).toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
               </label>
               <Button title="Mua Hàng" type="primary" size="medium"></Button>
             </div>

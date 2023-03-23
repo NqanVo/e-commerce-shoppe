@@ -27,29 +27,30 @@ const SideBarMenu = memo((props: SideBarMenuProps) => {
     title,
   } = props;
   return (
-    <div className="profile__nav__menu">
-      <Link to={url}>
-        <h3 className={`${menu_active === menu ? "active" : ""}`}>
-          <Icon size={20} /> {title}
-        </h3>
-      </Link>
-      <div className="profile__nav__menu__sub">
-        {subMenu &&
-          subMenu.map((sub, index) => (
-            <Link key={index} to={sub.url}>
-              <p
-                className={`${subMenu_active === sub.subMenu ? "active" : ""}`}
-              >
-                {sub.title}
-              </p>
-            </Link>
-          ))}
-        {/* <p>Hồ sơ</p>
-        <p>Ngân hàng</p>
-        <p>Địa chỉ</p>
-        <p>Đổi mật khẩu</p> */}
+    <>
+      {/* tablet vs desktop  */}
+      <div className="profile__nav__menu">
+        <Link to={url}>
+          <h3 className={`${menu_active === menu ? "active" : ""}`}>
+            <Icon size={20} /> {title}
+          </h3>
+        </Link>
+        <div className="profile__nav__menu__sub">
+          {subMenu &&
+            subMenu.map((sub, index) => (
+              <Link key={index} to={sub.url}>
+                <p
+                  className={`${
+                    subMenu_active === sub.subMenu ? "active" : ""
+                  }`}
+                >
+                  {sub.title}
+                </p>
+              </Link>
+            ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 });
 

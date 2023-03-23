@@ -28,6 +28,7 @@ const productListSlice = createSlice({
       state: ProductListProps,
       action: { payload: ProductListProps }
     ) => {
+      // console.log(action.payload.products);
       return {
         ...state,
         products: action.payload.products,
