@@ -13,6 +13,9 @@ import { initStateLoginProps } from "../../../redux/slices/authSlice";
 const Header = memo(() => {
   const [titleSearch, setTitleSearch] = useState<string>("");
   const [showHistorySearch, setShowHistorySearch] = useState(false);
+  const cartData = useSelector((state: any) => state.cart.cartData);
+  // console.log(cartData);
+
   const dispatch = useDispatch();
   const userID = useSelector(
     (state: { auth: initStateLoginProps }) => state.auth.userData
@@ -31,16 +34,18 @@ const Header = memo(() => {
   }, []);
 
   const handleSearch = () => {
-    setShowHistorySearch(false);
-    localStorage.setItem(
-      "historySearch",
-      JSON.stringify([...historySearch, titleSearch])
-    );
-    getHistorySearch();
-    fetchProducts(
-      `https://dummyjson.com/products/search?q=${titleSearch.trim()}`,
-      dispatch
-    );
+    if (titleSearch) {
+      setShowHistorySearch(false);
+      localStorage.setItem(
+        "historySearch",
+        JSON.stringify([...historySearch, titleSearch])
+      );
+      getHistorySearch();
+      fetchProducts(
+        `https://dummyjson.com/products/search?q=${titleSearch.trim()}`,
+        dispatch
+      );
+    }
   };
 
   const handleDeleteAllHistory = () => {
@@ -132,9 +137,12 @@ const Header = memo(() => {
         </div>
 
         <div className="header__body__cart">
-          <Link to={"/cart"}>
-            <FiShoppingCart color="white" size={32} />
-          </Link>
+          <div className="header__body__cart__quality">
+            <Link to={"/cart"}>
+              <FiShoppingCart color="white" size={32} />
+            </Link>
+            {cartData && cartData.length > 0 && <p>{cartData.length}</p>}
+          </div>
         </div>
       </div>
     </header>

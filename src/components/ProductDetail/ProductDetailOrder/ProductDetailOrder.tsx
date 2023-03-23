@@ -1,15 +1,22 @@
 import React, { memo, useState } from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsCartPlus } from "react-icons/bs";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { addCart } from "../../../redux/slices/cartSlice";
 import Button from "../../UI/Button/Button";
+import { Notify } from "../../UI/Notify/Notify";
 import "./ProductDetailOrder.scss";
+
 interface props {
   stock: number;
   id: number;
 }
 
 const ProductDetailOrder = memo(({ stock, id }: props) => {
+  const navigate = useNavigate();
   const [quality, setQuality] = useState<number>(0);
+  const dispatch = useDispatch();
   // console.log(quality);
   const handleUpQuality = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -34,34 +41,19 @@ const ProductDetailOrder = memo(({ stock, id }: props) => {
 
   const handleAddCart = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    let checkProduct;
     if (quality) {
-      const oldCart: any = localStorage.getItem("cartData");
-      const oldCartArray = JSON.parse(oldCart);
-      //kiểm tra có giỏ hàng sẳn hay chưa
-      if (oldCartArray) {
-        checkProduct = oldCartArray.find((item: any) => item.idProduct === id);
-        //kiểm tra xem sản phẩm đang thêm có sẳn trong giỏ hàng chưa
-        if (!checkProduct)
-          localStorage.setItem(
-            "cartData",
-            JSON.stringify([
-              ...oldCartArray,
-              { idProduct: id, quality: quality },
-            ])
-          );
-        else {
-          checkProduct.quality = quality;
-          localStorage.setItem("cartData", JSON.stringify(oldCartArray));
-        }
-      } else
-        localStorage.setItem(
-          "cartData",
-          JSON.stringify([{ idProduct: id, quality: quality }])
-        );
-    }
+      dispatch(addCart({ idProduct: id, quality: quality }));
+      Notify(200, "Thêm thành công");
+    } else Notify(400, "Vui lòng chọn số lượng");
   };
-
+  const handleOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    if (quality) {
+      dispatch(addCart({ idProduct: id, quality: quality }));
+      // Notify(200, "Thêm thành công");
+      navigate("/cart");
+    } else Notify(400, "Vui lòng chọn số lượng");
+  };
   return (
     <form action="" className="productDetail__body__formOrder">
       <div className="productDetail__body__formOrder__input">
@@ -95,7 +87,12 @@ const ProductDetailOrder = memo(({ stock, id }: props) => {
           size="large"
           onClick={(e) => handleAddCart(e)}
         />
-        <Button title={"Mua ngay"} type="primary" size="large" />
+        <Button
+          title={"Mua ngay"}
+          type="primary"
+          size="large"
+          onClick={(e) => handleOrder(e)}
+        />
       </div>
     </form>
   );

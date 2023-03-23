@@ -1,32 +1,99 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteAllCart } from "../../redux/slices/cartSlice";
-import Button from "../UI/Button/Button";
+import {
+  deleteAllCart,
+  deleteOneCart,
+  initStateCartProps,
+  loadingEndCart,
+  loadingStartCart,
+} from "../../redux/slices/cartSlice";
+import { ProductDetailProps } from "../ProductDetail/ProductDetail";
+import LoadingFull from "../UI/Loading/LoadingFull";
+import { Notify } from "../UI/Notify/Notify";
 import "./Cart.scss";
+import CartOrder from "./CartOrder/CartOrder";
+
+export interface ShoppingItem {
+  idProduct: string;
+  quality: number;
+  isCheck: boolean;
+  price: number;
+}
+interface RootState {
+  cart: initStateCartProps;
+}
 const Cart = memo(() => {
   const dispatch = useDispatch();
-  const cartData = useSelector((state: any) => state.cart.cartData);
-  const [cart, setCart] = useState<Array<any>>([]);
-  // console.log(cart);
+  const cartData = useSelector((state: RootState) => state.cart.cartData);
+  const [cart, setCart] = useState<Array<ProductDetailProps>>([]);
+  const loading = useSelector((state: RootState) => state.cart.loading);
+  const [orderAll, setOrderAll] = useState<boolean>(false);
+  const [shopping, setShopping] = useState<ShoppingItem[]>([]);
 
+  //lấy data cho cart và shopping
   useEffect(() => {
-    async function fetchProducts() {
+    const fetchProducts = async () => {
+      dispatch(loadingStartCart());
       const newCarts: any[] = [];
+      let newShopping: any = [];
       for (let i of cartData) {
         await fetch(`https://dummyjson.com/products/${i.idProduct}`)
           .then((res) => res.json())
-          .then((data) => newCarts.push(data));
+          .then((data) => {
+            newCarts.push(data);
+            newShopping.push({ ...i, isCheck: false, price: data.price });
+          });
       }
       setCart(newCarts);
-    }
+      setShopping(newShopping);
+
+      dispatch(loadingEndCart());
+    };
     if (cartData) fetchProducts();
     else setCart([]);
   }, [cartData]);
 
-  const handleDeleteOneProduct = (index: number) => {};
-  const handleDeleteAllProduct = () => {
-    dispatch(deleteAllCart());
+  //kiểm tra nếu có bất kỳ product nào có isCheck = false thì hủy orderAll
+  useEffect(() => {
+    setOrderAll(() => {
+      return shopping.every((item: ShoppingItem) => item.isCheck);
+    });
+  }, [shopping]);
+
+  const handleDeleteOneProduct = async (index: number) => {
+    await dispatch(deleteOneCart(index));
+    Notify(200, "Xóa thành công");
   };
+  const handleDeleteAllProduct = async () => {
+    await dispatch(deleteAllCart());
+    Notify(200, "Xóa thành công");
+  };
+
+  //cập nhật lại isCheck của product khi chọn/hủy
+  const handleSelectProduct = (index: number) => {
+    const newArray = [...shopping];
+    newArray[index].isCheck = !newArray[index].isCheck;
+    setShopping(newArray);
+  };
+  const handleSelectAll = useCallback(() => {
+    const updatedShopping: ShoppingItem[] = shopping.map(
+      (item: ShoppingItem) => {
+        return { ...item, isCheck: true };
+      }
+    );
+    setOrderAll(!orderAll);
+    return setShopping(updatedShopping);
+  }, [shopping]);
+  const handleCannelAll = useCallback(() => {
+    const updatedShopping: ShoppingItem[] = shopping.map(
+      (item: ShoppingItem) => {
+        return { ...item, isCheck: false };
+      }
+    );
+    setOrderAll(!orderAll);
+    return setShopping(updatedShopping);
+  }, [shopping]);
+
   return (
     <div>
       <div className="cart__body">
@@ -37,38 +104,43 @@ const Cart = memo(() => {
           <p>Số Tiền</p>
           <p>Thao Tác</p>
         </div>
-        {cartData.length > 0 &&
-          cart.map((product, index) => (
-            <div key={index} className="cart__body__product">
-              <div className="cart__body__product__title">
-                <input type="checkbox" />
-                <img src={product.thumbnail} alt={product.thumbnail} />
-                <p>{product.title}</p>
+        {loading ? (
+          <LoadingFull />
+        ) : cartData && cartData.length > 0 ? (
+          <>
+            {cart.map((product, index) => (
+              <div key={index} className="cart__body__product">
+                <div className="cart__body__product__title">
+                  <input
+                    type="checkbox"
+                    value={product.id}
+                    checked={shopping[index]?.isCheck}
+                    onChange={() => handleSelectProduct(index)}
+                  />
+                  <img src={product.thumbnail} alt={product.thumbnail} />
+                  <p>{product.title}</p>
+                </div>
+                <p>{product.price}</p>
+                <p>{cartData[index]?.quality}</p>
+                <p>{Number(cartData[index]?.quality * product.price)}</p>
+                <p onClick={() => handleDeleteOneProduct(index)}>Xóa</p>
               </div>
-              <p>{product.price}</p>
-              <p>{cartData[index].quality}</p>
-              <p>{parseInt(cartData[index].quality) * product.price}</p>
-              <p onClick={() => handleDeleteOneProduct(index)}>Xóa</p>
-            </div>
-          ))}
+            ))}
+          </>
+        ) : (
+          <div className="cart__body__empty">
+            <img src="https://salevn.vn/tp/T0199/img/empty_cart.png" alt="" />
+          </div>
+        )}
       </div>
-      <div className="cart__order">
-        <div className="cart__order__input">
-          <input id="orderAll" type="checkbox" />
-          <label htmlFor="orderAll">Chọn tất cả ({cart.length})</label>
-        </div>
-        <div className="cart__order__input">
-          <label htmlFor="" onClick={handleDeleteAllProduct}>
-            Xóa hết
-          </label>
-        </div>
-        <div className="cart__order__input">{}</div>
-        <div className="cart__order__input">{}</div>
-        <div className="cart__order__input">
-          <label htmlFor="">Tổng thanh toán (0 Sản phẩm): 0đ</label>
-          <Button title="Mua Hàng" type="primary" size="medium"></Button>
-        </div>
-      </div>
+      <CartOrder
+        cart={cart}
+        shopping={shopping}
+        orderAll={orderAll}
+        handleCannelAll={handleCannelAll}
+        handleSelectAll={handleSelectAll}
+        handleDeleteAllProduct={handleDeleteAllProduct}
+      />
     </div>
   );
 });
