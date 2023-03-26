@@ -8,9 +8,11 @@ interface CartOrderProps {
   cart: ProductDetailProps[];
   shopping: ShoppingItem[];
   orderAll: boolean;
+  disabledPayment: boolean;
   handleCannelAll: () => void;
   handleSelectAll: () => void;
   handleDeleteAllProduct: () => void;
+  handlePayment: () => void;
 }
 
 const CartOrder = memo(
@@ -21,6 +23,8 @@ const CartOrder = memo(
     handleCannelAll,
     handleSelectAll,
     handleDeleteAllProduct,
+    handlePayment,
+    disabledPayment,
   }: CartOrderProps) => {
     const totalPriceProducts = useMemo(() => {
       const total = shopping.reduce(
@@ -78,7 +82,13 @@ const CartOrder = memo(
                     currency: "VND",
                   })}
               </label>
-              <Button title="Mua Hàng" type="primary" size="medium"></Button>
+              <Button
+                title="Mua Hàng"
+                type="primary"
+                size="medium"
+                onClick={handlePayment}
+                disabled={disabledPayment}
+              ></Button>
             </div>
           </div>
         )}

@@ -12,7 +12,7 @@ import LoadingFull from "../UI/Loading/LoadingFull";
 import { Notify } from "../UI/Notify/Notify";
 import "./Cart.scss";
 import CartOrder from "./CartOrder/CartOrder";
-
+import { initStateLoginProps } from "../../redux/slices/authSlice";
 export interface ShoppingItem {
   idProduct: string;
   quality: number;
@@ -21,10 +21,12 @@ export interface ShoppingItem {
 }
 interface RootState {
   cart: initStateCartProps;
+  auth: initStateLoginProps;
 }
 const Cart = memo(() => {
   const dispatch = useDispatch();
   const cartData = useSelector((state: RootState) => state.cart.cartData);
+  const userData = useSelector((state: RootState) => state.auth.userData);
   const [cart, setCart] = useState<Array<ProductDetailProps>>([]);
   const loading = useSelector((state: RootState) => state.cart.loading);
   const [orderAll, setOrderAll] = useState<boolean>(false);
@@ -60,8 +62,12 @@ const Cart = memo(() => {
     });
   }, [shopping]);
 
-  const handleDeleteOneProduct = async (index: number) => {
-    await dispatch(deleteOneCart(index));
+  // const handleDeleteOneProduct = async (index: number) => {
+  //   await dispatch(deleteOneCart(index));
+  //   Notify(200, "Xóa thành công");
+  // };
+  const handleDeleteOneProduct = async (idProduct: number) => {
+    await dispatch(deleteOneCart(idProduct));
     Notify(200, "Xóa thành công");
   };
   const handleDeleteAllProduct = async () => {
@@ -92,6 +98,17 @@ const Cart = memo(() => {
     );
     setOrderAll(!orderAll);
     return setShopping(updatedShopping);
+  }, [shopping]);
+
+  const handlePayment = useCallback(() => {
+    if (userData) {
+      const productPayment = shopping.filter(
+        (product: ShoppingItem) => product.isCheck === true
+      );
+      for (let i in productPayment)
+        dispatch(deleteOneCart(productPayment[i].idProduct));
+      Notify(200, "Đặt hàng thành công");
+    } else window.location.href = "/login";
   }, [shopping]);
 
   return (
@@ -135,7 +152,7 @@ const Cart = memo(() => {
                     currency: "VND",
                   })}
                 </p>
-                <p onClick={() => handleDeleteOneProduct(index)}>Xóa</p>
+                <p onClick={() => handleDeleteOneProduct(product.id)}>Xóa</p>
               </div>
             ))}
           </>
@@ -152,6 +169,10 @@ const Cart = memo(() => {
         handleCannelAll={handleCannelAll}
         handleSelectAll={handleSelectAll}
         handleDeleteAllProduct={handleDeleteAllProduct}
+        handlePayment={handlePayment}
+        disabledPayment={
+          !shopping.some((product: ShoppingItem) => product.isCheck === true)
+        }
       />
     </div>
   );
