@@ -66,9 +66,11 @@ const cartSlice = createSlice({
       return;
     },
     deleteOneCart: (state, action) => {
-      const newCartData = state.cartData;
-      newCartData.splice(action.payload, 1);
-
+      // const newCartData = state.cartData;
+      // newCartData.splice(action.payload, 1);
+      const newCartData = state.cartData.filter(
+        (product) => product.idProduct !== action.payload
+      );
       localStorage.setItem("cartData", JSON.stringify(newCartData));
       state.cartData = newCartData;
       return;
