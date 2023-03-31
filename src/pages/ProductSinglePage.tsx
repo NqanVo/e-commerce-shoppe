@@ -1,29 +1,29 @@
-import React, { memo, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import Footer from "../components/Layout/Footer/Footer";
-import Header from "../components/Layout/Header/Header";
-import ProductDetail from "../components/ProductDetail/ProductDetail";
+import React, { memo, useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import Footer from '../components/Layout/Footer/Footer'
+import Header from '../components/Layout/Header/Header'
+import ProductDetail from '../components/ProductDetail/ProductDetail'
 
-import { ProductDetailProps } from "../components/ProductDetail/ProductDetail";
-import Loading from "../components/UI/Loading/Loading";
+import { ProductDetailProps } from '../components/ProductDetail/ProductDetail'
+import Loading from '../components/UI/Loading/Loading'
 
 const ProductSinglePage = memo(() => {
-  const idProduct = useLocation().pathname.split("/")[2];
-  const [productDetail, setProductDetail] = useState<ProductDetailProps>();
+  const idProduct = useLocation().pathname.split('/')[2]
+  const [productDetail, setProductDetail] = useState<ProductDetailProps>()
 
   useEffect(() => {
     const getData = () => {
       fetch(`https://dummyjson.com/products/${idProduct}`)
         .then((res) => res.json())
-        .then((data) => setProductDetail(data));
-    };
-    getData();
-  }, []);
+        .then((data) => setProductDetail(data))
+    }
+    getData()
+  }, [])
 
   return (
-    <div className="wrapper">
+    <div className='wrapper'>
       <Header></Header>
-      <div className="container container__productDetail">
+      <div className='container container__productDetail'>
         {!productDetail ? (
           <Loading />
         ) : (
@@ -44,7 +44,7 @@ const ProductSinglePage = memo(() => {
       </div>
       <Footer></Footer>
     </div>
-  );
-});
+  )
+})
 
-export default ProductSinglePage;
+export default ProductSinglePage

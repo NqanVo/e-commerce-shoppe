@@ -84,8 +84,17 @@
   }
   & h3 {
     font-size: 16px !important;
-  }
+    
 
+     
+    @include mobile{
+      padding: 5px;
+      border-bottom: 1px solid white;
+    }
+  }
+  & h3 .btn_logout{
+    cursor: pointer;
+  }
     &__menuMobile{
       display: flex;
       flex-direction: column;
@@ -112,6 +121,7 @@
 }
 .profile__navMobile__open{
   display: flex;
+  
   @include tablet{
     display: none;
   }

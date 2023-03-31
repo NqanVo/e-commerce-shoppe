@@ -1,31 +1,35 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { LoginUserProps } from "../../components/Layout/Auth/Auth";
+import { createSlice } from '@reduxjs/toolkit'
+import { LoginUserProps } from '../../components/Layout/Auth/Auth'
 
 export interface initStateLoginProps {
-  loading: boolean;
-  userData: LoginUserProps;
+  loading: boolean
+  userData: LoginUserProps
 }
 
 const initStateLogin: initStateLoginProps = {
   loading: false,
-  userData: JSON.parse(localStorage.getItem("userData")!) || null,
-};
+  userData: JSON.parse(localStorage.getItem('userData')!) || null
+}
 
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState: initStateLogin,
   reducers: {
     loginStart: (state) => {
-      return { ...state, loading: true };
+      return { ...state, loading: true }
     },
     loginSuccess: (state, action) => {
-      return { loading: false, userData: action.payload };
+      return { loading: false, userData: action.payload }
     },
     loginFail: (state) => {
-      return { ...state, loading: false };
+      return { ...state, loading: false }
     },
-  },
-});
+    logout: (state) => {
+      localStorage.removeItem('userData')
+      return { ...initStateLogin }
+    }
+  }
+})
 
-export const { loginStart, loginSuccess, loginFail } = authSlice.actions;
-export default authSlice.reducer;
+export const { loginStart, loginSuccess, loginFail, logout } = authSlice.actions
+export default authSlice.reducer
